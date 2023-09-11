@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>체납자데이터수집</title>
+</head>
+
+<body>
+    <button onclick="f_send()">요청 보내기</button>
+
+    <script>
+
+        function f_send() {
+            let pageNo = 1;
+
+            f_ajax(pageNo);
+        }
+
+        let buisnessData = [];
+
+        function f_ajax(p_pageNo) {
+            var xhr = new XMLHttpRequest();
+            var url = 'https://api.odcloud.kr/api/15070669/v1/uddi:8d127f80-04e2-4340-8b10-831a907ac4f5?page=1&perPage=10';
+            var queryParams = '&' + encodeURIComponent('serviceKey') + '=' + 'JLqXqyO%2FDYsq%2B972EPpNT6nUBB33tJxy7hL%2BiJoT5MOJv3ejT2veVpFWb8144cuY1%2F9rYqURdTVxv1jif%2FfTPQ%3D%3D'; /*Service Key*/
+
+            xhr.open('GET', url + queryParams);
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    console.log(this.responseText);
+                    let v_json = JSON.parse(this.responseText);
+                    console.log(v_json);
+
+                    localStorage.setItem('buisnessData', JSON.stringify(v_json));
+                }
+            };
+
+            xhr.send('');
+
+        }
+    </script>
+</body>
+
+</html>

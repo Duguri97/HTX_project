@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세종시 다루기</title>
+    <style>
+        .container {
+            width: 800px;
+            height: 600px;
+            margin: auto;
+            border: 1px solid black;
+
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <select id="taxSelector">
+                <option value="지방소득세">지방소득세</option>
+                <option value="취득세" selected>취득세</option>
+                <option value="재산세">재산세</option>
+                <option value="자동차세">자동차세</option>
+                <option value="등록면허세">등록면허세</option>
+                <option value="주민세">주민세</option>
+            </select>
+            <input id="inputRegion" type="text">
+            <button onclick="f_search()">검색</button>
+            <button id="btnSort" onclick="f_sort()">정렬▼</button>
+        </div>
+        <div id="content"></div>
+
+    </div>
+
+
+    <script>
+        let v_sjData = JSON.parse(localStorage.getItem("sjData"));
+        console.log(v_sjData);
+
+        console.log(v_sjData["data"][0]["세목명"]);
+
+        const v_content = document.querySelector("#content");
+        const v_region = document.querySelector("#inputRegion");
+        const v_taxSelect = document.querySelector("#taxSelector")
+
+        let v_count = [];
+        for (let i = 0; i < v_sjData["data"].length; i++) {
+            if (v_count.indexOf(v_sjData["data"][i]["세목명"])) {
+                v_count.push(v_sjData["data"][i]["세목명"])
+            }
+        }
+
+        console.log(v_count);
+
+        let v_taxCount = [];
+        for (let i = 0; i < v_sjData["data"].length; i++) {
+            if (v_taxCount.indexOf(v_sjData["data"][i]["누적체납건수"])) {
+                v_taxCount.push(v_sjData["data"][i]["누적체납건수"])
+            }
+        }
+        console.log(v_taxCount);
+
+        function f_search() {
+            v_content.innerHTML = "";
+
+            let selectedTax = v_taxSelect.value;
+
+            for (let i = 0; i < v_sjData["data"].length; i++) {
+                let name = v_sjData["data"][i]["세목명"];
+                let accu = v_sjData["data"][i]["누적체납건수"];
+
+                if (name === selectedTax) {
+                    let v_str = "세목명: " + name + "<br>";
+                    v_content.innerHTML += v_str;
+
+                    for (let k = 0; k < accu; k++) {
+                        let v_str = "누적체납건수: " + accu + "<br>";
+                        v_content.innerHTML += v_str;
+                    }
+                }
+            }
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

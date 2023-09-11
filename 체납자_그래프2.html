@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>체납자현황</title>
+</head>
+
+<body>
+    <div style="width: 600px; height: 400px;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        let v_noneTax = JSON.parse(localStorage.getItem("buisnessData"));
+
+        console.log(v_noneTax);
+        console.log(v_noneTax["data"][0]);
+        console.log(v_noneTax["data"][0]["구분2"]);
+
+        let v_label = [];
+
+        for (let i = 0; i < v_noneTax["data"].length; i++) {
+            if (v_label.indexOf(v_noneTax["data"][i]["구분2"])) {
+                v_label.push(v_noneTax["data"][i]["구분2"])
+            }
+        }
+        console.log(v_label);
+
+        let v_data = [];
+
+        for (let i = 0; i < v_noneTax["data"].length; i++) {
+            if (v_data.indexOf(v_noneTax["data"][i]["신규공개자 체납세액 (억원)"][i])) {
+                v_data.push(v_noneTax["data"][i]["신규공개자 체납세액 (억원)"])
+            }
+        }
+        console.log(v_data);
+        
+
+
+
+
+
+
+            const ctx = document.getElementById("myChart");
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: v_label,
+                datasets: [{
+                    data: v_data
+                }]
+            }
+        });
+    </script>
+</body>
+
+</html>
